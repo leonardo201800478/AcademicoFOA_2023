@@ -12,13 +12,18 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="AlunoDisciplinaId" class="control-label"></label>
-                <input asp-for="AlunoDisciplinaId" class="form-control" />
-                <span asp-validation-for="AlunoDisciplinaId" class="text-danger"></span>
-            </div>
             <input type="hidden" asp-for="AlunoId" />
             <input type="hidden" asp-for="DisciplinaId" />
+            <div class="form-group">
+                <label asp-for="Ano" class="control-label"></label>
+                <input asp-for="Ano" class="form-control" />
+                <span asp-validation-for="Ano" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Semestre" class="control-label"></label>
+                <input asp-for="Semestre" class="form-control" />
+                <span asp-validation-for="Semestre" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -30,6 +35,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

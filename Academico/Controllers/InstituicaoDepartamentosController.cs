@@ -22,8 +22,9 @@ namespace Academico.Controllers
         // GET: InstituicaoDepartamentos
         public async Task<IActionResult> Index()
         {
-            var academicoContext = _context.InstituicaoDepartamentos.Include(i => i.Departamento).Include(i => i.Instituicao);
-            return View(await academicoContext.ToListAsync());
+              return _context.InstituicaoDepartamentos != null ? 
+                          View(await _context.InstituicaoDepartamentos.ToListAsync()) :
+                          Problem("Entity set 'AcademicoContext.InstituicaoDepartamentos'  is null.");
         }
 
         // GET: InstituicaoDepartamentos/Details/5
@@ -35,8 +36,6 @@ namespace Academico.Controllers
             }
 
             var instituicaoDepartamento = await _context.InstituicaoDepartamentos
-                .Include(i => i.Departamento)
-                .Include(i => i.Instituicao)
                 .FirstOrDefaultAsync(m => m.InstituicaoId == id);
             if (instituicaoDepartamento == null)
             {
@@ -49,8 +48,6 @@ namespace Academico.Controllers
         // GET: InstituicaoDepartamentos/Create
         public IActionResult Create()
         {
-            ViewData["DepartamentoId"] = new SelectList(_context.Departamentos, "DepartamentoId", "DepartamentoId");
-            ViewData["InstituicaoId"] = new SelectList(_context.Instituicoes, "InstituicaoId", "InstituicaoId");
             return View();
         }
 
@@ -67,8 +64,6 @@ namespace Academico.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartamentoId"] = new SelectList(_context.Departamentos, "DepartamentoId", "DepartamentoId", instituicaoDepartamento.DepartamentoId);
-            ViewData["InstituicaoId"] = new SelectList(_context.Instituicoes, "InstituicaoId", "InstituicaoId", instituicaoDepartamento.InstituicaoId);
             return View(instituicaoDepartamento);
         }
 
@@ -85,8 +80,6 @@ namespace Academico.Controllers
             {
                 return NotFound();
             }
-            ViewData["DepartamentoId"] = new SelectList(_context.Departamentos, "DepartamentoId", "DepartamentoId", instituicaoDepartamento.DepartamentoId);
-            ViewData["InstituicaoId"] = new SelectList(_context.Instituicoes, "InstituicaoId", "InstituicaoId", instituicaoDepartamento.InstituicaoId);
             return View(instituicaoDepartamento);
         }
 
@@ -95,7 +88,7 @@ namespace Academico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("InstituicaoDepartamentoId,InstituicaoId,DepartamentoId")] InstituicaoDepartamento instituicaoDepartamento)
+        public async Task<IActionResult> Edit(int? id, [Bind("InstituicaoDepartamentoId,InstituicaoId,DepartamentoId")] InstituicaoDepartamento instituicaoDepartamento)
         {
             if (id != instituicaoDepartamento.InstituicaoId)
             {
@@ -122,8 +115,6 @@ namespace Academico.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartamentoId"] = new SelectList(_context.Departamentos, "DepartamentoId", "DepartamentoId", instituicaoDepartamento.DepartamentoId);
-            ViewData["InstituicaoId"] = new SelectList(_context.Instituicoes, "InstituicaoId", "InstituicaoId", instituicaoDepartamento.InstituicaoId);
             return View(instituicaoDepartamento);
         }
 
@@ -136,8 +127,6 @@ namespace Academico.Controllers
             }
 
             var instituicaoDepartamento = await _context.InstituicaoDepartamentos
-                .Include(i => i.Departamento)
-                .Include(i => i.Instituicao)
                 .FirstOrDefaultAsync(m => m.InstituicaoId == id);
             if (instituicaoDepartamento == null)
             {
@@ -150,7 +139,7 @@ namespace Academico.Controllers
         // POST: InstituicaoDepartamentos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             if (_context.InstituicaoDepartamentos == null)
             {
@@ -166,7 +155,7 @@ namespace Academico.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool InstituicaoDepartamentoExists(int id)
+        private bool InstituicaoDepartamentoExists(int? id)
         {
           return (_context.InstituicaoDepartamentos?.Any(e => e.InstituicaoId == id)).GetValueOrDefault();
         }

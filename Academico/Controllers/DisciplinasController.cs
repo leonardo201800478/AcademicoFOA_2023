@@ -28,15 +28,15 @@ namespace Academico.Controllers
         }
 
         // GET: Disciplinas/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(long? id)
         {
-            if (id == null || _context.Disciplinas == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var disciplina = await _context.Disciplinas
-                .FirstOrDefaultAsync(m => m.DisciplinaId == id);
+            var disciplina = await _context.Disciplinas.Include(
+                d => d.Cursos).SingleOrDefaultAsync(i => i.DisciplinaId == id);
             if (disciplina == null)
             {
                 return NotFound();
@@ -56,7 +56,7 @@ namespace Academico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DisciplinaId,Nome")] Disciplina disciplina)
+        public async Task<IActionResult> Create([Bind("DisciplinaId,Nome,CargaHoraria")] Disciplina disciplina)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace Academico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DisciplinaId,Nome")] Disciplina disciplina)
+        public async Task<IActionResult> Edit(int? id, [Bind("DisciplinaId,Nome,CargaHoraria")] Disciplina disciplina)
         {
             if (id != disciplina.DisciplinaId)
             {
@@ -139,7 +139,7 @@ namespace Academico.Controllers
         // POST: Disciplinas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             if (_context.Disciplinas == null)
             {
@@ -155,7 +155,7 @@ namespace Academico.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DisciplinaExists(int id)
+        private bool DisciplinaExists(int? id)
         {
           return (_context.Disciplinas?.Any(e => e.DisciplinaId == id)).GetValueOrDefault();
         }

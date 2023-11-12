@@ -28,15 +28,15 @@ namespace Academico.Controllers
         }
 
         // GET: Cursos/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(long? id)
         {
-            if (id == null || _context.Cursos == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var curso = await _context.Cursos
-                .FirstOrDefaultAsync(m => m.CursoId == id);
+            var curso = await _context.Cursos.Include(d => d.Disciplinas)
+                .SingleOrDefaultAsync(i => i.CursoId == id);
             if (curso == null)
             {
                 return NotFound();
@@ -56,7 +56,7 @@ namespace Academico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CursoId,Nome")] Curso curso)
+        public async Task<IActionResult> Create([Bind("CursoId,Nome,CargaHoraria")] Curso curso)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace Academico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CursoId,Nome")] Curso curso)
+        public async Task<IActionResult> Edit(int? id, [Bind("CursoId,Nome,CargaHoraria")] Curso curso)
         {
             if (id != curso.CursoId)
             {
@@ -139,7 +139,7 @@ namespace Academico.Controllers
         // POST: Cursos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             if (_context.Cursos == null)
             {
@@ -155,7 +155,7 @@ namespace Academico.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CursoExists(int id)
+        private bool CursoExists(int? id)
         {
           return (_context.Cursos?.Any(e => e.CursoId == id)).GetValueOrDefault();
         }

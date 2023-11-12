@@ -28,15 +28,17 @@ namespace Academico.Controllers
         }
 
         // GET: Instituicoes/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(long? id)
         {
-            if (id == null || _context.Instituicoes == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var instituicao = await _context.Instituicoes
-                .FirstOrDefaultAsync(m => m.InstituicaoId == id);
+            var instituicao = await _context.Instituicoes.Include(
+                d => d.Departamentos
+            )
+                .SingleOrDefaultAsync(i => i.InstituicaoId == id);
             if (instituicao == null)
             {
                 return NotFound();
@@ -56,7 +58,7 @@ namespace Academico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("InstituicaoId,Nome")] Instituicao instituicao)
+        public async Task<IActionResult> Create([Bind("InstituicaoId,Nome,Endereco")] Instituicao instituicao)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +70,7 @@ namespace Academico.Controllers
         }
 
         // GET: Instituicoes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(long? id)
         {
             if (id == null || _context.Instituicoes == null)
             {
@@ -88,7 +90,7 @@ namespace Academico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("InstituicaoId,Nome")] Instituicao instituicao)
+        public async Task<IActionResult> Edit(long? id, [Bind("InstituicaoId,Nome,Endereco")] Instituicao instituicao)
         {
             if (id != instituicao.InstituicaoId)
             {
@@ -119,7 +121,7 @@ namespace Academico.Controllers
         }
 
         // GET: Instituicoes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(long? id)
         {
             if (id == null || _context.Instituicoes == null)
             {
@@ -139,7 +141,7 @@ namespace Academico.Controllers
         // POST: Instituicoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(long? id)
         {
             if (_context.Instituicoes == null)
             {
@@ -155,7 +157,7 @@ namespace Academico.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool InstituicaoExists(int id)
+        private bool InstituicaoExists(long? id)
         {
           return (_context.Instituicoes?.Any(e => e.InstituicaoId == id)).GetValueOrDefault();
         }

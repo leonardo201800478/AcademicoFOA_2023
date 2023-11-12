@@ -1,20 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Academico.Models
 {
     public class InstituicaoDepartamento
     {
-        [Key]
-        public int InstituicaoDepartamentoId { get; set; }
-
-        [ForeignKey("Instituicao")]
-        public int InstituicaoId { get; set; }
-        [ForeignKey("Departamento")]
-        public int DepartamentoId { get; set; }
-
-        public virtual Instituicao Instituicao { get; set; }
-        public virtual Departamento Departamento { get; set; }
+       
+        public int? InstituicaoDepartamentoId { get; set; }        
+        public int? InstituicaoId { get; set; }       
+        public int? DepartamentoId { get; set; }
+        public Instituicao? Instituicao { get; set; }
+        public Departamento? Departamento { get; set; }
     }
-
 }

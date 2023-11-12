@@ -56,7 +56,7 @@ namespace Academico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AlunoId,Nome")] Aluno aluno)
+        public async Task<IActionResult> Create([Bind("AlunoId,Matricula,Nome,DisciplinaId")] Aluno aluno)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace Academico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AlunoId,Nome")] Aluno aluno)
+        public async Task<IActionResult> Edit(int? id, [Bind("AlunoId,Matricula,Nome,DisciplinaId")] Aluno aluno)
         {
             if (id != aluno.AlunoId)
             {
@@ -139,7 +139,7 @@ namespace Academico.Controllers
         // POST: Alunos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             if (_context.Alunos == null)
             {
@@ -155,7 +155,7 @@ namespace Academico.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AlunoExists(int id)
+        private bool AlunoExists(int? id)
         {
           return (_context.Alunos?.Any(e => e.AlunoId == id)).GetValueOrDefault();
         }

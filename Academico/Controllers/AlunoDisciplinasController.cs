@@ -49,8 +49,8 @@ namespace Academico.Controllers
         // GET: AlunoDisciplinas/Create
         public IActionResult Create()
         {
-            ViewData["AlunoId"] = new SelectList(_context.Alunos, "AlunoId", "AlunoId");
-            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "DisciplinaId");
+            ViewData["AlunoId"] = new SelectList(_context.Alunos, "AlunoId", "Matricula");
+            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace Academico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AlunoDisciplinaId,AlunoId,DisciplinaId")] AlunoDisciplina alunoDisciplina)
+        public async Task<IActionResult> Create([Bind("AlunoId,DisciplinaId,Ano,Semestre")] AlunoDisciplina alunoDisciplina)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +67,8 @@ namespace Academico.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AlunoId"] = new SelectList(_context.Alunos, "AlunoId", "AlunoId", alunoDisciplina.AlunoId);
-            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "DisciplinaId", alunoDisciplina.DisciplinaId);
+            ViewData["AlunoId"] = new SelectList(_context.Alunos, "AlunoId", "Matricula", alunoDisciplina.AlunoId);
+            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", alunoDisciplina.DisciplinaId);
             return View(alunoDisciplina);
         }
 
@@ -85,8 +85,8 @@ namespace Academico.Controllers
             {
                 return NotFound();
             }
-            ViewData["AlunoId"] = new SelectList(_context.Alunos, "AlunoId", "AlunoId", alunoDisciplina.AlunoId);
-            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "DisciplinaId", alunoDisciplina.DisciplinaId);
+            ViewData["AlunoId"] = new SelectList(_context.Alunos, "AlunoId", "Matricula", alunoDisciplina.AlunoId);
+            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", alunoDisciplina.DisciplinaId);
             return View(alunoDisciplina);
         }
 
@@ -95,7 +95,7 @@ namespace Academico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AlunoDisciplinaId,AlunoId,DisciplinaId")] AlunoDisciplina alunoDisciplina)
+        public async Task<IActionResult> Edit(int? id, [Bind("AlunoId,DisciplinaId,Ano,Semestre")] AlunoDisciplina alunoDisciplina)
         {
             if (id != alunoDisciplina.AlunoId)
             {
@@ -122,8 +122,8 @@ namespace Academico.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AlunoId"] = new SelectList(_context.Alunos, "AlunoId", "AlunoId", alunoDisciplina.AlunoId);
-            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "DisciplinaId", alunoDisciplina.DisciplinaId);
+            ViewData["AlunoId"] = new SelectList(_context.Alunos, "AlunoId", "Matricula", alunoDisciplina.AlunoId);
+            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", alunoDisciplina.DisciplinaId);
             return View(alunoDisciplina);
         }
 
@@ -150,7 +150,7 @@ namespace Academico.Controllers
         // POST: AlunoDisciplinas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             if (_context.AlunoDisciplinas == null)
             {
@@ -166,7 +166,7 @@ namespace Academico.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AlunoDisciplinaExists(int id)
+        private bool AlunoDisciplinaExists(int? id)
         {
           return (_context.AlunoDisciplinas?.Any(e => e.AlunoId == id)).GetValueOrDefault();
         }

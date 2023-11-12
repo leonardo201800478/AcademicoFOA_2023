@@ -1,14 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Configuration;
 
 namespace Academico.Models
 {
     public class Curso
     {
-        [Key]
-        public int CursoId { get; set; }
-        public string Nome { get; set; }
-        // outras propriedades do curso
-
-        public virtual ICollection<CursoDisciplina> CursoDisciplinas { get; set; }
+        public int? CursoId { get; set; }
+        [Required]
+        public string Nome { get; set; } = string.Empty;
+        [IntegerValidator(MinValue = 20)]
+        public int? CargaHoraria { get; set;}
+        public ICollection<Aluno>? Alunos { get; set; }
+        public ICollection<Disciplina>? Disciplinas { get; set; }
+        public ICollection<CursoDisciplina>? CursosDisciplinas { get; set; }
     }
 }

@@ -49,8 +49,8 @@ namespace Academico.Controllers
         // GET: CursoDisciplinas/Create
         public IActionResult Create()
         {
-            ViewData["CursoId"] = new SelectList(_context.Cursos, "CursoId", "CursoId");
-            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "DisciplinaId");
+            ViewData["CursoId"] = new SelectList(_context.Cursos, "CursoId", "Nome");
+            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome");
             return View();
         }
 
@@ -67,8 +67,8 @@ namespace Academico.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CursoId"] = new SelectList(_context.Cursos, "CursoId", "CursoId", cursoDisciplina.CursoId);
-            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "DisciplinaId", cursoDisciplina.DisciplinaId);
+            ViewData["CursoId"] = new SelectList(_context.Cursos, "CursoId", "Nome", cursoDisciplina.CursoId);
+            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", cursoDisciplina.DisciplinaId);
             return View(cursoDisciplina);
         }
 
@@ -85,8 +85,8 @@ namespace Academico.Controllers
             {
                 return NotFound();
             }
-            ViewData["CursoId"] = new SelectList(_context.Cursos, "CursoId", "CursoId", cursoDisciplina.CursoId);
-            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "DisciplinaId", cursoDisciplina.DisciplinaId);
+            ViewData["CursoId"] = new SelectList(_context.Cursos, "CursoId", "Nome", cursoDisciplina.CursoId);
+            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", cursoDisciplina.DisciplinaId);
             return View(cursoDisciplina);
         }
 
@@ -122,8 +122,8 @@ namespace Academico.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CursoId"] = new SelectList(_context.Cursos, "CursoId", "CursoId", cursoDisciplina.CursoId);
-            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "DisciplinaId", cursoDisciplina.DisciplinaId);
+            ViewData["CursoId"] = new SelectList(_context.Cursos, "CursoId", "Nome", cursoDisciplina.CursoId);
+            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", cursoDisciplina.DisciplinaId);
             return View(cursoDisciplina);
         }
 

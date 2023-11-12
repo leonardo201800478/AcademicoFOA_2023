@@ -15,12 +15,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.InstituicaoDepartamentoId)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Instituicao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Departamento)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -29,12 +23,6 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.InstituicaoDepartamentoId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Instituicao.InstituicaoId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Departamento.DepartamentoId)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
